@@ -94,9 +94,7 @@ class Transacoes extends Component {
           <List
             dataArray={this.state.dataSource}
             renderRow={data =>
-              <ListItem
-               onPress={() => this.props.navigation.navigate('DetailsTrans', {transacao: data})}
-              >
+              <ListItem>
                 <Grid>
                   <Col>
                     <Row>
@@ -129,9 +127,6 @@ class Transacoes extends Component {
                       <Body style={{right: 0}}>
                         {this.valoresTransacoes(data.tipo, data.valor)}
                       </Body>
-                      <Right>
-                        <Icon name="arrow-forward" />
-                      </Right>
                     </Row>
                   </Col>
                 </Grid>

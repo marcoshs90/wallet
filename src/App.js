@@ -7,6 +7,8 @@ import Transacoes from "./screens/transacoes/";
 import Enderecos from "./screens/enderecos/";
 import Faq from "./screens/faq/";
 
+import DetailsTrans from "./screens/detailsTransacoes/";
+
 import SideBar from "./screens/sidebar";
 
 const Drawer = DrawerNavigator(
@@ -26,7 +28,13 @@ const Drawer = DrawerNavigator(
 );
 
 const AppNavigator = StackNavigator(
-  {Drawer: { screen: Drawer }},
+  {
+    Drawer: { screen: Drawer },
+    DetailsTrans: {
+      path: 'transacoes/:transacao',
+      screen: DetailsTrans
+    }
+  },
   {
     initialRouteName: "Drawer",
     headerMode: "none"
