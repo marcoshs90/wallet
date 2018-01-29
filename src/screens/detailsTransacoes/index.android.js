@@ -17,55 +17,17 @@ import {
 import { Grid, Row, Col } from "react-native-easy-grid";
 import styles from "./styles";
 
-class Transacoes extends Component {
+class DetailsTransacoes extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true
-    }
-  }
-
-  componentDidMount() {
-    return fetch('https://apiwigool.herokuapp.com/api/transacoes', {
-                  method: 'POST',
-                  headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify({
-                    tipo: 0,
-                    id: 13,
-                  })
-      })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        this.setState({
-          isLoading: false,
-          dataSource: responseJson,
-        }, function() {
-          // do something with new state
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-
-  valoresTransacoes(tipo, valor){
-    if(tipo == 1){
-      return <Button full success><Text>{valor} BTC</Text></Button>;
-    }else if(tipo == 2){
-      return <Button full danger><Text>{valor} BTC</Text></Button>;
-    }else if(tipo == 3){
-      return <Button full info><Text>{valor} BTC</Text></Button>;
-    }else if(tipo == 4){
-      return <Button full warning><Text>{valor} BTC</Text></Button>;
-    }else if(tipo == 5){
-      return <Button full light><Text>{valor} BRL</Text></Button>;
+      isLoading: false
     }
   }
 
   render() {
+    const {state, goBack} = this.props.navigation;
+
     if (this.state.isLoading) {
       return (
         <Spinner />
@@ -78,64 +40,174 @@ class Transacoes extends Component {
           <Left>
             <Button
               transparent
-              onPress={() => this.props.navigation.navigate("DrawerOpen")}
+              onPress={() => goBack()}
             >
-              <Icon style={styles.botao} name="menu" />
+              <Icon style={styles.botao} name="arrow-back" />
             </Button>
           </Left>
           <Body>
-            <Title style={styles.escritaBranca}>Transações</Title>
+            <Title style={styles.escritaBranca}>Transação</Title>
           </Body>
           <Right>
             <Icon style={styles.botao} name="qr-scanner" />
           </Right>
         </Header>
         <Content>
-          <List
-            dataArray={this.state.dataSource}
-            renderRow={data =>
-              <ListItem>
-                <Grid>
-                  <Col>
-                    <Row>
-                      <Left><Text style={{fontSize: 11}}>{data.data}</Text></Left>
-                    </Row>
-                    <Row>
-                      <Left>
-                        <Text style={{fontSize: 18, fontWeight: "bold"}}>
-                          {
-                            data.tipo == 1 ?
-                            "RECEBIDO" :
-                            (data.tipo == 2 ?
-                             "ENVIADO" :
-                             (data.tipo == 3 ?
-                              "COMPRA" :
-                              (data.tipo == 4 ?
-                               "VENDA" :
-                               (data.tipo == 5 ?
-                                "REQUISIÇÃO" : "")
-                              )
-                             )
-                            )
-                          }
-                        </Text>
-                      </Left>
-                    </Row>
-                  </Col>
-                  <Col>
-                    <Row>
-                      <Body style={{right: 0}}>
-                        {this.valoresTransacoes(data.tipo, data.valor)}
-                      </Body>
-                    </Row>
-                  </Col>
-                </Grid>
-              </ListItem>}
-          />
+          <ListItem>
+            <Grid>
+              <Col>
+                <Row>
+                  <Text style={{fontSize: 22, fontWeight: "bold"}}>
+                    {
+                      state.params.transacao.tipo == 1 ?
+                      "RECEBIDO" :
+                      (state.params.transacao.tipo == 2 ?
+                       "ENVIADO" :
+                       (state.params.transacao.tipo == 3 ?
+                        "COMPRA" :
+                        (state.params.transacao.tipo == 4 ?
+                         "VENDA" :
+                         (state.params.transacao.tipo == 5 ?
+                          "REQUISIÇÃO" : "")
+                        )
+                       )
+                      )
+                    }
+                  </Text>
+                </Row>
+              </Col>
+              <Col>
+                <Row>
+                  <Body>
+                    <Text style={{fontSize: 18}}>
+                      {state.params.transacao.valor != null ? state.params.transacao.valor : ""}
+                      {
+                        state.params.transacao.tipo == 1 ?
+                        "  BTC" :
+                        (state.params.transacao.tipo == 2 ?
+                         "  BTC" :
+                         (state.params.transacao.tipo == 3 ?
+                          "  BTC" :
+                          (state.params.transacao.tipo == 4 ?
+                           "  BTC" :
+                           (state.params.transacao.tipo == 5 ?
+                            "  BRL" : "")
+                          )
+                         )
+                        )
+                      }
+                    </Text>
+                  </Body>
+                </Row>
+                <Row>
+                  <Body>
+                    <Text style={{fontSize: 14}}>
+                      Taxa na transação
+                      {state.params.transacao.comissao != null ? "  "+state.params.transacao.comissao : ""}
+                      {
+                        state.params.transacao.tipo == 1 ?
+                        "  BTC" :
+                        (state.params.transacao.tipo == 2 ?
+                         "  BTC" :
+                         (state.params.transacao.tipo == 3 ?
+                          "  BTC" :
+                          (state.params.transacao.tipo == 4 ?
+                           "  BTC" :
+                           (state.params.transacao.tipo == 5 ?
+                            "  BRL" : "")
+                          )
+                         )
+                        )
+                      }
+                    </Text>
+                  </Body>
+                </Row>
+              </Col>
+            </Grid>
+          </ListItem>
+          <ListItem>
+            <Grid>
+              <Row>
+                <Text style={{fontSize: 18}}>
+                  De:
+                </Text>
+                <Text style={{fontSize: 12, left: 10}}>
+                  {
+                    state.params.transacao.tipo == 1 ?
+                    state.params.transacao.terceiro :
+                    (state.params.transacao.tipo == 2 ?
+                     state.params.transacao.carteira+" (Minha)" :
+                     (state.params.transacao.tipo == 3 ?
+                      "" :
+                      (state.params.transacao.tipo == 4 ?
+                       state.params.transacao.carteira :
+                       (state.params.transacao.tipo == 5 ?
+                        state.params.transacao.carteira : "")
+                      )
+                     )
+                    )
+                  }
+                </Text>
+              </Row>
+              <Row>
+                <Text style={{fontSize: 18}}>
+                  Para:
+                </Text>
+                <Text style={{fontSize: 12, left: 10}}>
+                  {
+                    state.params.transacao.tipo == 1 ?
+                    state.params.transacao.carteira+" (Minha)" :
+                    (state.params.transacao.tipo == 2 ?
+                     state.params.transacao.terceiro :
+                     (state.params.transacao.tipo == 3 ?
+                      state.params.transacao.carteira :
+                      (state.params.transacao.tipo == 4 ?
+                       "" :
+                       (state.params.transacao.tipo == 5 ?
+                        state.params.transacao.email : "")
+                      )
+                     )
+                    )
+                  }
+                </Text>
+              </Row>
+            </Grid>
+          </ListItem>
+          <ListItem>
+            <Grid>
+              <Row>
+                <Text style={{fontSize: 18}}>
+                  Data:
+                </Text>
+                <Text style={{fontSize: 12, left: 10}}>
+                  {state.params.transacao.data}
+                </Text>
+              </Row>
+            </Grid>
+          </ListItem>
+          <ListItem>
+            <Grid>
+              <Row>
+                <Text style={{fontSize: 18}}>
+                  Status:
+                </Text>
+                <Text style={{fontSize: 12, left: 10}}>
+                  {
+                    state.params.transacao.tipo == 1 || state.params.transacao.tipo == 2 ?
+                      (state.params.transacao.status == 3 ? "Transação Completa" : "Transação Pendente") :
+                      (state.params.transacao.tipo == 3 || state.params.transacao.tipo == 5 ?
+                        (state.params.transacao.status == 0 ? "Aguardando" : (state.params.transacao.status == 1 ? "Completa" : "Cancelada")) :
+                        (state.params.transacao.tipo == 4 ? "Completa" : "")
+                      )
+                  }
+                </Text>
+              </Row>
+            </Grid>
+          </ListItem>
         </Content>
       </Container>
     );
   }
 }
 
-export default Transacoes;
+export default DetailsTransacoes;
