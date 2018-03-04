@@ -1,11 +1,13 @@
 import React, { Component } from "react"
-import { Dimensions, TouchableOpacity } from "react-native"
+import { Dimensions, TouchableOpacity, View } from "react-native"
 import { Container, Text } from "native-base"
 
 import { GcHeader } from "gc-components"
 import { EnderecoService } from "gc-services"
 
 import EStyleSheet from "react-native-extended-stylesheet"
+
+import QRCode from 'react-native-qrcode'
 
 export class EnderecoDetailPage extends Component {
   constructor(props) {
@@ -27,14 +29,6 @@ export class EnderecoDetailPage extends Component {
     title: 'Home...'
   };
 
-  onPress() {
-    // alert("clicou!")
-
-    debugger
-
-    this.enderecoService.novo({id: 1, isPrincipal: false, identificador: 'Foi? Palagem'})
-  }
-
   vai() {
     console.log('aaa')
     this.props.navigation.navigate('EnderecoDetailPage')
@@ -47,20 +41,20 @@ export class EnderecoDetailPage extends Component {
           backButton
           title={this.state.endereco.label}
           navigation={this.props.navigation}
-          rightButtons={[
-            {
-              title: "opa",
-              icon: "qr-scanner",
-              transparent: true,
-              onPress: () => this.onPress()
-            }
-          ]}
         />
 
-        <TouchableOpacity onPress={() => this.vai()}><Text>proxima</Text></TouchableOpacity>
+        <View style={{padding: 20}}>
+          <Text>{this.state.endereco.endereco}</Text>
+        </View>
 
+        <View style={{alignItems: 'center', justifyContent: 'center'}}>
+          <QRCode
+            value={this.state.endereco.endereco}
+            size={250}
+            bgColor='black'
+            fgColor='white'/>
+        </View>
 
-        <Text>Dashboard</Text>
       </Container>
     )
   }
