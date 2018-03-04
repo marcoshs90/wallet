@@ -16,6 +16,7 @@ import {
   SideBar,
   DashboardPage,
   TransacoesDetailPage,
+  EnderecoDetailPage,
 } from 'gc-pages'
 
 import { ConfigTheme } from 'gc-config'
@@ -68,6 +69,7 @@ const AppNavigator = StackNavigator(
     Drawer: { screen: Drawer },
     Enderecos2: { screen: EnderecosPage },
     TransacoesDetailPage: { screen: TransacoesDetailPage },
+    EnderecoDetailPage: { screen: props => <EnderecoDetailPage {...props} /> },
   },
   {
     initialRouteName: 'Drawer',

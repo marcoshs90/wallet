@@ -71,8 +71,9 @@ const styles = EStyleSheet.create({
     height: 100
   },
   escritaBranca: {
+    width: 200,
     color: "$white",
-    fontSize: 22
+    fontSize: 18
   },
   botao: {
     color: "$white",
