@@ -3,12 +3,12 @@ import { Root } from 'native-base'
 import { StackNavigator, DrawerNavigator } from 'react-navigation'
 
 import {
-  HomePage,
-  Transacoes,
-  Enderecos,
-  Faq,
+  TransacoesPage,
+  EnderecosPage,
+  FaqPage,
   SideBar,
-  DashboardPage
+  DashboardPage,
+  TransacoesDetailPage,
 } from 'gc-pages'
 
 import { ConfigTheme } from 'gc-config'
@@ -32,16 +32,23 @@ export default class App extends Component {
   }
 }
 
+const navigationOptions = {
+  headerTintColor: 'white',
+  headerStyle: {
+    backgroundColor: '#2D2D2D',
+    height: 100
+  }
+}
 
 const Drawer = DrawerNavigator(
   {
-    Home: { screen: DashboardPage },
-    Transacoes: { screen: Transacoes },
-    Enderecos: { screen: Enderecos },
-    Faq: { screen: Faq }
+    DashboardPage: { screen: DashboardPage },
+    TransacoesPage: { screen: TransacoesPage },
+    EnderecosPage: { screen: EnderecosPage },
+    FaqPage: { screen: FaqPage }
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'DashboardPage',
     contentOptions: {
       activeTintColor: '#e91e63'
     },
@@ -51,10 +58,12 @@ const Drawer = DrawerNavigator(
 
 const AppNavigator = StackNavigator(
   {
-    Home: { screen: Drawer }
+    Drawer: { screen: Drawer },
+    Enderecos2: { screen: EnderecosPage },
+    TransacoesDetailPage: { screen: TransacoesDetailPage },
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Drawer',
     headerMode: 'none'
   }
 )

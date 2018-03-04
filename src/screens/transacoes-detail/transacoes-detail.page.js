@@ -7,7 +7,7 @@ import { EnderecoService } from "gc-services"
 
 import EStyleSheet from "react-native-extended-stylesheet"
 
-export class DashboardPage extends Component {
+export class TransacoesDetailPage extends Component {
   constructor(props) {
     super(props)
 
@@ -37,8 +37,8 @@ export class DashboardPage extends Component {
     return (
       <Container>
         <GcHeader
-          showMenu
-          title="WIGOOL"
+          backButton
+          title="Detalhe"
           navigation={this.props.navigation}
           rightButtons={[
             {

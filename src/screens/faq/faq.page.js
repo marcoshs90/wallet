@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, { Component } from 'react'
+import { View } from 'react-native'
 import {
   Spinner,
   Container,
@@ -13,80 +14,103 @@ import {
   Button,
   Icon,
   Text
-} from "native-base";
-import { Grid, Row, Col } from "react-native-easy-grid";
-import styles from "./styles";
+} from 'native-base'
+import { Grid, Row, Col } from 'react-native-easy-grid'
+import EStyleSheet from 'react-native-extended-stylesheet'
 
-export class Faq extends Component {
+import { GcHeader } from 'gc-components'
+import { FaqService } from 'gc-services'
+
+export class FaqPage extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      isLoading: true
+      isLoading: true,
+      faq: []
     }
+
+    this.faqService = new FaqService()
   }
 
   componentDidMount() {
-    return fetch('https://apiwigool.herokuapp.com/api/faq', {
-                  method: 'GET',
-                  headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                  }
-      })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        this.setState({
-          isLoading: false,
-          dataSource: responseJson.faq,
-        }, function() {
-          // do something with new state
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    this.getFaq()
   }
 
-  render() {
+  getFaq() {
+    this.faqService.getFaq().then(faq => {
+      this.setState({ faq, isLoading: false })
+    })
+  }
+
+  renderPage() {
     if (this.state.isLoading) {
       return (
-        <Spinner />
-      );
+        <View style={{ padding: 20 }}>
+          <Spinner />
+        </View>
+      )
     }
 
     return (
-      <Container style={styles.container}>
-        <Header style={styles.cabecalho}>
-          <Left>
-            <Button
-              transparent
-              onPress={() => this.props.navigation.navigate("DrawerOpen")}
-            >
-              <Icon style={styles.botao} name="menu" />
-            </Button>
-          </Left>
-          <Body>
-            <Title style={styles.escritaBranca}>FAQ</Title>
-          </Body>
-          <Right />
-        </Header>
-        <Content>
-          <List
-            dataArray={this.state.dataSource}
-            renderRow={data =>
-              <ListItem>
-                <Grid>
-                  <Row>
-                    <Left><Text style={styles.perguntas}>{data.pergunta}</Text></Left>
-                  </Row>
-                  <Row>
-                    <Left><Text style={styles.respostas}>{data.resposta}</Text></Left>
-                  </Row>
-                </Grid>
-              </ListItem>}
-          />
-        </Content>
+      <Content>
+        <List
+          dataArray={this.state.faq}
+          renderRow={data => (
+            <ListItem>
+              <Grid>
+                <Row>
+                  <Left>
+                    <Text style={styles.perguntas}>{data.pergunta}</Text>
+                  </Left>
+                </Row>
+                <Row>
+                  <Left>
+                    <Text style={styles.respostas}>{data.resposta}</Text>
+                  </Left>
+                </Row>
+              </Grid>
+            </ListItem>
+          )}
+        />
+      </Content>
+    )
+  }
+
+  render() {
+    return (
+      <Container>
+        <GcHeader showMenu title='FAQ' navigation={this.props.navigation} />
+        {this.renderPage()}
       </Container>
-    );
+    )
   }
 }
+
+const styles = EStyleSheet.create({
+  container: {
+    backgroundColor: '#FFF'
+  },
+  mb: {
+    marginBottom: 10
+  },
+  cabecalho: {
+    backgroundColor: '#025274',
+    height: 100
+  },
+  botao: {
+    color: '#FFFFFF',
+    marginTop: 0,
+    fontSize: 30
+  },
+  escritaBranca: {
+    color: '#FFFFFF',
+    fontSize: 22
+  },
+  perguntas: {
+    fontSize:18,
+    fontWeight: 'bold'
+  },
+  respostas: {
+    fontSize: 13
+  }
+})

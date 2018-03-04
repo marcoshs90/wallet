@@ -6,7 +6,7 @@ import { Grid, Row, Col } from "react-native-easy-grid"
 import { GcHeader } from "gc-components"
 import { EnderecoService } from "gc-services"
 
-export class Enderecos extends Component {
+export class EnderecosPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -27,12 +27,17 @@ export class Enderecos extends Component {
     })
   }
 
+  back() {
+    this.props.navigation.goBack()
+  }
+
   adicionarEndereco() {
     this.setState({isLoading: true})
     this.enderecoService.novo({
       id: 1,
       isPrincipal: false,
-      identificador: "Outro endereço"
+      identificador: Math.random().toString(36).substring(7)
+      // random string
     })
     .then((status) => this.getEnderecos())
   }
@@ -71,7 +76,7 @@ export class Enderecos extends Component {
     return (
       <Container>
         <GcHeader
-          showMenu
+          backButton
           title="Endereços"
           navigation={this.props.navigation}
           rightButtons={[

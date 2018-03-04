@@ -4,9 +4,25 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { Header, Title, Left, Right, Body, Button, Icon } from "native-base";
 
 export class GcHeader extends Component {
+
+  componentDidMount() {
+    console.log(this.props.navigation)
+  }
+
   leftButtons() {
     if (this.props.left) {
       return this.props.left();
+    }
+
+    if (this.props.backButton) {
+      return (
+        <Button
+          transparent
+          onPress={() => this.props.navigation.goBack()}
+        >
+          <Icon style={styles.botao} name="arrow-back" />
+        </Button>
+      );
     }
 
     if (this.props.showMenu) {

@@ -16,12 +16,11 @@ import {
   Text
 } from "native-base"
 import { Grid, Row, Col } from "react-native-easy-grid"
-import styles from "./styles"
 
 import { GcHeader } from "gc-components"
 import { TransacoesService } from "gc-services"
 
-export class Transacoes extends Component {
+export class TransacoesPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -99,7 +98,7 @@ export class Transacoes extends Component {
           renderRow={data => (
             <ListItem
               onPress={() =>
-                this.props.navigation.navigate("DetailsTrans", {
+                this.props.navigation.navigate("TransacoesDetailPage", {
                   transacao: data
                 })
               }
