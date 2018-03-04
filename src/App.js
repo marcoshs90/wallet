@@ -2,21 +2,21 @@ import React from "react";
 import { Root } from "native-base";
 import { StackNavigator, DrawerNavigator } from "react-navigation";
 
-import Home from "./screens/home/";
-import Transacoes from "./screens/transacoes/";
-import Enderecos from "./screens/enderecos/";
-import Faq from "./screens/faq/";
-
-import DetailsTrans from "./screens/detailsTransacoes/";
-
-import SideBar from "./screens/sidebar";
+import {
+  HomePage,
+  Transacoes,
+  Enderecos,
+  Faq,
+  DetailsTrans,
+  SideBar
+} from "gc-pages";
 
 const Drawer = DrawerNavigator(
   {
-   Home: { screen: Home },
-   Transacoes: { screen: Transacoes },
-   Enderecos: { screen: Enderecos },
-   Faq: { screen: Faq }
+    Home: { screen: HomePage },
+    Transacoes: { screen: Transacoes },
+    Enderecos: { screen: Enderecos },
+    Faq: { screen: Faq }
   },
   {
     initialRouteName: "Home",
@@ -29,9 +29,9 @@ const Drawer = DrawerNavigator(
 
 const AppNavigator = StackNavigator(
   {
-    Drawer: { screen: Drawer },
+    Home: { screen: HomePage },
     DetailsTrans: {
-      path: 'transacoes/:transacao',
+      path: "transacoes/:transacao",
       screen: DetailsTrans
     }
   },
@@ -41,7 +41,8 @@ const AppNavigator = StackNavigator(
   }
 );
 
-export default () =>
+export default () => (
   <Root>
     <AppNavigator />
-  </Root>;
+  </Root>
+);

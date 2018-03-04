@@ -43,7 +43,7 @@ const datas = [
   },
 ];
 
-class SideBar extends Component {
+export class SideBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -103,5 +103,3 @@ class SideBar extends Component {
     );
   }
 }
-
-export default SideBar;

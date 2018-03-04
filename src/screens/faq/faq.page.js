@@ -17,7 +17,7 @@ import {
 import { Grid, Row, Col } from "react-native-easy-grid";
 import styles from "./styles";
 
-class Enderecos extends Component {
+export class Faq extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,21 +26,18 @@ class Enderecos extends Component {
   }
 
   componentDidMount() {
-    return fetch('https://apiwigool.herokuapp.com/api/enderecos', {
-                  method: 'POST',
+    return fetch('https://apiwigool.herokuapp.com/api/faq', {
+                  method: 'GET',
                   headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify({
-                    id: 12,
-                  })
+                  }
       })
       .then((response) => response.json())
       .then((responseJson) => {
         this.setState({
           isLoading: false,
-          dataSource: responseJson,
+          dataSource: responseJson.faq,
         }, function() {
           // do something with new state
         });
@@ -69,11 +66,9 @@ class Enderecos extends Component {
             </Button>
           </Left>
           <Body>
-            <Title style={styles.escritaBranca}>Endereços</Title>
+            <Title style={styles.escritaBranca}>FAQ</Title>
           </Body>
-          <Right>
-            <Icon style={styles.botao} name="add" />
-          </Right>
+          <Right />
         </Header>
         <Content>
           <List
@@ -81,12 +76,12 @@ class Enderecos extends Component {
             renderRow={data =>
               <ListItem>
                 <Grid>
-                  <Col>
-                    <Text style={{fontWeight: "bold"}}>{data.label}</Text>
-                  </Col>
-                  <Col>
-                    <Body><Text>{data.valor}</Text></Body>
-                  </Col>
+                  <Row>
+                    <Left><Text style={styles.perguntas}>{data.pergunta}</Text></Left>
+                  </Row>
+                  <Row>
+                    <Left><Text style={styles.respostas}>{data.resposta}</Text></Left>
+                  </Row>
                 </Grid>
               </ListItem>}
           />
@@ -95,5 +90,3 @@ class Enderecos extends Component {
     );
   }
 }
-
-export default Enderecos;

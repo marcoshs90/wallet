@@ -13,7 +13,8 @@ import {
 } from "native-base";
 import styles from "./styles";
 
-class Home extends Component {
+export class HomePage extends Component {
+
   render() {
     return (
       <Container style={styles.container}>
@@ -40,5 +41,3 @@ class Home extends Component {
     );
   }
 }
-
-export default Home;
