@@ -2,6 +2,13 @@ import React, { Component } from 'react'
 import { Root } from 'native-base'
 import { StackNavigator, DrawerNavigator } from 'react-navigation'
 
+import Reactotron from 'reactotron-react-native'
+
+Reactotron
+  .configure()
+  .useReactNative()
+  .connect()
+
 import {
   TransacoesPage,
   EnderecosPage,
