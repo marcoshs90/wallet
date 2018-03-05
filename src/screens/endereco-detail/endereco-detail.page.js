@@ -48,11 +48,15 @@ export class EnderecoDetailPage extends Component {
         </View>
 
         <View style={{alignItems: 'center', justifyContent: 'center'}}>
-          <QRCode
-            value={this.state.endereco.endereco}
-            size={250}
-            bgColor='black'
-            fgColor='white'/>
+          {
+            !this.state.endereco.arquivado
+            ? <QRCode
+                value={this.state.endereco.endereco}
+                size={250}
+                bgColor='black'
+                fgColor='white'/>
+            : null
+          }
         </View>
 
       </Container>

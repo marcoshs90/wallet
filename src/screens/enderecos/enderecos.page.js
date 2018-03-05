@@ -89,7 +89,8 @@ export class EnderecosPage extends Component {
 
         if(item.arquivado) {
           if(buttonIndex === 0) {
-            alert('Desarquivar!')
+            this.enderecoService.desarquivar({id: 1, address: item.endereco})
+              .then(() => this.getEnderecos())
           }
         } else {
           if(buttonIndex === 0) {
@@ -101,7 +102,8 @@ export class EnderecosPage extends Component {
           }
 
           if(buttonIndex === 2) {
-            this.enderecoService.arquivar({id: 1, endereco: item.endereco})
+            this.enderecoService.arquivar({id: 1, address: item.endereco})
+              .then(() => this.getEnderecos())
           }
         }
       }

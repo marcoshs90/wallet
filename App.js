@@ -40,14 +40,6 @@ export default class App extends Component {
   }
 }
 
-const navigationOptions = {
-  headerTintColor: 'white',
-  headerStyle: {
-    backgroundColor: '#2D2D2D',
-    height: 100
-  }
-}
-
 const Drawer = DrawerNavigator(
   {
     DashboardPage: { screen: DashboardPage },

@@ -21,11 +21,7 @@ export class DashboardPage extends Component {
   };
 
   onPress() {
-    // alert("clicou!")
-
-    debugger
-
-    this.enderecoService.novo({id: 1, isPrincipal: false, identificador: 'Foi? Palagem'})
+    alert("clicou!")
   }
 
   vai() {
@@ -46,7 +42,7 @@ export class DashboardPage extends Component {
               icon: "qr-scanner",
               transparent: true,
               onPress: () => this.onPress()
-            }
+            },
           ]}
         />
 

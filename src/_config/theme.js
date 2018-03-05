@@ -1,6 +1,6 @@
 import EStyleSheet from 'react-native-extended-stylesheet'
 
-const PRIMARY_COLOR   = '#025274'
+const PRIMARY_COLOR = '#025274'
 
 const BLACK = '#000000'
 const WHITE = '#ffffff'

@@ -48,4 +48,19 @@ export class EnderecoService {
         })
       })
   }
+
+  desarquivar(data) {
+    return this.httpService
+      .post('/enderecos/desarquivar', data)
+      .then((response) => {
+        debugger
+        return response.data
+      })
+      .catch(error => {
+        debugger
+        throw new ErrorModel({
+          error
+        })
+      })
+  }
 }
