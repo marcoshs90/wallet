@@ -19,31 +19,31 @@ const drawerImage = require("../../../assets/logo.png");
 const datas = [
   {
     name: "Dashboard",
-    route: "Home",
+    route: "DashboardPage",
     icon: "speedometer",
     bg: "#C5F442"
   },
   {
     name: "Transações",
-    route: "Transacoes",
+    route: "TransacoesPage",
     icon: "cash",
     bg: "#C5F442"
   },
   {
     name: "Endereços",
-    route: "Enderecos",
+    route: "EnderecosPage",
     icon: "qr-scanner",
     bg: "#C5F442"
   },
   {
     name: "FAQ",
-    route: "Faq",
+    route: "FaqPage",
     icon: "help-circle",
     bg: "#C5F442"
   },
 ];
 
-class SideBar extends Component {
+export class SideBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -103,5 +103,3 @@ class SideBar extends Component {
     );
   }
 }
-
-export default SideBar;
