@@ -20,7 +20,7 @@ import {
   ComprarPage,
   SaquePage,
   VenderPage,
-  SolicitarPage,
+  TransferirPage,
 } from 'gc-pages'
 
 import { ConfigTheme } from 'gc-config'
@@ -48,7 +48,7 @@ const icons = {
     Comprar: 'ios-cart',
     Saque: 'ios-cash',
     Vender: 'ios-cloud-upload',
-    Solicitar: 'ios-download',
+    Transferir: 'ios-exit',
   }
 
 
@@ -57,7 +57,7 @@ const Tabs = TabNavigator(
     Comprar: { screen: ComprarPage },
     Saque: { screen: SaquePage },
     Vender: { screen: VenderPage },
-    Solicitar: { screen: SolicitarPage },
+    Transferir: { screen: TransferirPage },
   },
   {
     navigationOptions: ({ navigation }) => ({

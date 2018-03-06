@@ -11,7 +11,7 @@ export { FaqPage } from './faq/faq.page'
 export { SideBar } from './sidebar/sidebar.page'
 export { ComprarPage } from './comprar/comprar.page'
 export { SaquePage } from './saque/saque.page'
-export { SolicitarPage } from './solicitar/solicitar.page'
+export { TransferirPage } from './transferir/transferir.page'
 export { VenderPage } from './vender/vender.page'
 
 
