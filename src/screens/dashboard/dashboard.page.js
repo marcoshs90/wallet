@@ -16,10 +16,6 @@ export class DashboardPage extends Component {
     this.enderecoService = new EnderecoService()
   }
 
-  static navigationOptions = {
-    title: 'Home...'
-  };
-
   onPress() {
     alert("clicou!")
   }
