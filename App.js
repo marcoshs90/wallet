@@ -51,11 +51,24 @@ const icons = {
   }
 
 
+
+  const TransacoesNavigator = StackNavigator(
+  {
+    TransacoesPage: { screen: TransacoesPage },
+    TransacoesDetailPage: { screen: TransacoesDetailPage },
+  },
+  {
+    initialRouteName: 'TransacoesPage',
+    headerMode: 'none'
+  }
+)
+
+
 const Tabs = TabNavigator(
   {
     Enviar: { screen: EnviarPage },
     Painel: { screen: PainelPage },
-    Transações: { screen: TransacoesPage },
+    Transações: { screen: TransacoesNavigator },
     Solicitar: { screen: SolicitarPage },
   },
   {
