@@ -4,7 +4,7 @@ import { Container, Text } from "native-base"
 
 import { GcHeader } from "gc-components"
 
-export class PainelPage extends Component {
+export class VenderPage extends Component {
   constructor(props) {
     super(props)
 
@@ -16,7 +16,7 @@ export class PainelPage extends Component {
       <Container>
         <GcHeader
           showMenu
-          title="Painel"
+          title="Vender"
           navigation={this.props.navigation}
         />
       </Container>

@@ -17,8 +17,9 @@ import {
   DashboardPage,
   TransacoesDetailPage,
   EnderecoDetailPage,
-  EnviarPage,
-  PainelPage,
+  ComprarPage,
+  SaquePage,
+  VenderPage,
   SolicitarPage,
 } from 'gc-pages'
 
@@ -44,31 +45,18 @@ export default class App extends Component {
 }
 
 const icons = {
-    Enviar: 'ios-cloud-upload',
-    Painel: 'ios-home',
-    Transações: 'ios-list-box',
-    Solicitar: 'ios-cloud-download',
+    Comprar: 'ios-cart',
+    Saque: 'ios-cash',
+    Vender: 'ios-cloud-upload',
+    Solicitar: 'ios-download',
   }
-
-
-
-  const TransacoesNavigator = StackNavigator(
-  {
-    TransacoesPage: { screen: TransacoesPage },
-    TransacoesDetailPage: { screen: TransacoesDetailPage },
-  },
-  {
-    initialRouteName: 'TransacoesPage',
-    headerMode: 'none'
-  }
-)
 
 
 const Tabs = TabNavigator(
   {
-    Enviar: { screen: EnviarPage },
-    Painel: { screen: PainelPage },
-    Transações: { screen: TransacoesNavigator },
+    Comprar: { screen: ComprarPage },
+    Saque: { screen: SaquePage },
+    Vender: { screen: VenderPage },
     Solicitar: { screen: SolicitarPage },
   },
   {
