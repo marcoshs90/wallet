@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Root } from 'native-base'
-import { StackNavigator, DrawerNavigator } from 'react-navigation'
+import { Root, Icon } from 'native-base'
+import { StackNavigator, DrawerNavigator, TabNavigator, TabBarBottom } from 'react-navigation'
 
 import Reactotron from 'reactotron-react-native'
 
@@ -17,6 +17,9 @@ import {
   DashboardPage,
   TransacoesDetailPage,
   EnderecoDetailPage,
+  EnviarPage,
+  PainelPage,
+  SolicitarPage,
 } from 'gc-pages'
 
 import { ConfigTheme } from 'gc-config'
@@ -40,9 +43,46 @@ export default class App extends Component {
   }
 }
 
+const icons = {
+    Enviar: 'ios-cloud-upload',
+    Painel: 'ios-home',
+    Transações: 'ios-list-box',
+    Solicitar: 'ios-cloud-download',
+  }
+
+
+const Tabs = TabNavigator(
+  {
+    Enviar: { screen: EnviarPage },
+    Painel: { screen: PainelPage },
+    Transações: { screen: TransacoesPage },
+    Solicitar: { screen: SolicitarPage },
+  },
+  {
+    navigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, tintColor }) => {
+        const { routeName } = navigation.state
+        let iconName = `${icons[routeName]}${focused ? '' : '-outline'}`
+
+        return <Icon name={iconName} size={25} style={{color: tintColor}} />
+      },
+    }),
+    tabBarComponent: TabBarBottom,
+    tabBarPosition: 'bottom',
+    tabBarOptions: {
+      activeTintColor: '#025274',
+      inactiveTintColor: 'gray',
+    },
+    animationEnabled: false,
+    swipeEnabled: false,
+  }
+)
+
+
+
 const Drawer = DrawerNavigator(
   {
-    DashboardPage: { screen: DashboardPage },
+    DashboardPage: { screen: Tabs },
     TransacoesPage: { screen: TransacoesPage },
     EnderecosPage: { screen: EnderecosPage },
     FaqPage: { screen: FaqPage }
@@ -68,3 +108,7 @@ const AppNavigator = StackNavigator(
     headerMode: 'none'
   }
 )
+
+
+
+

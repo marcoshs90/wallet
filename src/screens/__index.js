@@ -9,5 +9,8 @@ export { EnderecosPage } from './enderecos/enderecos.page'
 export { EnderecoDetailPage } from './endereco-detail/endereco-detail.page'
 export { FaqPage } from './faq/faq.page'
 export { SideBar } from './sidebar/sidebar.page'
+export { EnviarPage } from './enviar/enviar.page'
+export { PainelPage } from './painel/painel.page'
+export { SolicitarPage } from './solicitar/solicitar.page'
 
 
