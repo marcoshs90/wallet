@@ -18,7 +18,7 @@ export class SaquePage extends Component {
 
   formatedMoney(valor) {
 
-      if(!valor) {
+      if(!valor || !this.state.comissao) {
         valor = 0.00
       }
 
