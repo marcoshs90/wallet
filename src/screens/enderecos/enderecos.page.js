@@ -18,6 +18,8 @@ import {
 } from 'native-base';
 import { Grid, Row, Col } from 'react-native-easy-grid';
 
+import EventEmitter from "sm-event-emitter";
+
 import { GcHeader } from 'gc-components';
 import { EnderecoService } from 'gc-services';
 
@@ -32,6 +34,9 @@ export class EnderecosPage extends Component {
     };
 
     this.enderecoService = new EnderecoService();
+    EventEmitter.on('ATUALIZAR_ENDERECOS', (enderecos) => {
+      this.setState({enderecos})
+    })
   }
 
   componentDidMount() {
@@ -98,7 +103,7 @@ export class EnderecosPage extends Component {
           }
 
           if(buttonIndex === 1) {
-            alert('Receber!')
+            this.detailPage(item)
           }
 
           if(buttonIndex === 2) {
