@@ -13,5 +13,6 @@ export { ComprarPage } from './comprar/comprar.page'
 export { SaquePage } from './saque/saque.page'
 export { TransferirPage } from './transferir/transferir.page'
 export { VenderPage } from './vender/vender.page'
+export { LoginPage } from './login/login.page'
 
 

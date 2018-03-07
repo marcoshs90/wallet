@@ -1,13 +1,19 @@
-import React, { Component } from 'react'
-import { Root, Icon } from 'native-base'
-import { StackNavigator, DrawerNavigator, TabNavigator, TabBarBottom } from 'react-navigation'
+import React, { Component } from "react";
+import { Root, Icon } from "native-base";
+import {
+  StackNavigator,
+  DrawerNavigator,
+  TabNavigator,
+  TabBarBottom
+} from "react-navigation";
 
-import Reactotron from 'reactotron-react-native'
+import Reactotron from "reactotron-react-native";
 
-Reactotron
-  .configure()
+import EventEmitter from "sm-event-emitter";
+
+Reactotron.configure()
   .useReactNative()
-  .connect()
+  .connect();
 
 import {
   TransacoesPage,
@@ -21,65 +27,99 @@ import {
   SaquePage,
   VenderPage,
   TransferirPage,
-} from 'gc-pages'
+  LoginPage
+} from "gc-pages";
 
-import { ConfigTheme } from 'gc-config'
+import { ConfigTheme } from "gc-config";
+import { AuthService, StorageService } from "gc-services";
 
 export default class App extends Component {
   constructor() {
-    super()
+    super();
+
+    this.state = {
+      token: "",
+      isLoading: true
+    };
 
     // @description: disable yellow warning bottom box
-    console.disableYellowBox = true
+    console.disableYellowBox = true;
 
-    ConfigTheme.build()
+    this.authService = new AuthService();
+
+    this.authService.init().then(token => {
+      this.setState({ token, isLoading: false });
+    });
+
+    ConfigTheme.build();
+    this._setListeners();
+  }
+
+  _setListeners() {
+    EventEmitter.on("LOGIN_SUCCESS", token => {
+      this.setState({ token });
+    });
+
+    EventEmitter.on("SUCCESS_LOGOUT", () => {
+      StorageService.remove("sessionToken");
+      this.setState({ token: "" });
+    });
   }
 
   render() {
-    return (
-      <Root>
-        <AppNavigator />
-      </Root>
-    )
+    if (this.state.isLoading) {
+      return null;
+    }
+
+    if (this.state.token) {
+      return (
+        <Root>
+          <AppNavigator />
+        </Root>
+      );
+    } else {
+      return (
+        <Root>
+          <LoginPage />
+        </Root>
+      );
+    }
   }
 }
 
 const icons = {
-    Comprar: 'ios-cart',
-    Saque: 'ios-cash',
-    Vender: 'ios-cloud-upload',
-    Transferir: 'ios-exit',
-  }
-
+  Comprar: "ios-cart",
+  Saque: "ios-cash",
+  Vender: "ios-cloud-upload",
+  Transferir: "ios-exit"
+};
 
 const Tabs = TabNavigator(
   {
     Comprar: { screen: ComprarPage },
     Saque: { screen: SaquePage },
     Vender: { screen: VenderPage },
-    Transferir: { screen: TransferirPage },
+    Transferir: { screen: TransferirPage }
   },
   {
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
-        const { routeName } = navigation.state
-        let iconName = `${icons[routeName]}${focused ? '' : '-outline'}`
+        const { routeName } = navigation.state;
+        let iconName = `${icons[routeName]}${focused ? "" : "-outline"}`;
 
-        return <Icon name={iconName} size={25} style={{color: tintColor}} />
-      },
+        return <Icon name={iconName} size={25} style={{ color: tintColor }} />;
+      }
     }),
     tabBarComponent: TabBarBottom,
-    tabBarPosition: 'bottom',
+    tabBarPosition: "bottom",
     tabBarOptions: {
-      activeTintColor: '#025274',
-      inactiveTintColor: 'gray',
+      activeTintColor: "#025274",
+      inactiveTintColor: "gray"
     },
     animationEnabled: false,
-    swipeEnabled: false,
+    swipeEnabled: false
   }
-)
-
-
+);
 
 const Drawer = DrawerNavigator(
   {
@@ -89,27 +129,23 @@ const Drawer = DrawerNavigator(
     FaqPage: { screen: FaqPage }
   },
   {
-    initialRouteName: 'DashboardPage',
+    initialRouteName: "DashboardPage",
     contentOptions: {
-      activeTintColor: '#e91e63'
+      activeTintColor: "#e91e63"
     },
     contentComponent: props => <SideBar {...props} />
   }
-)
+);
 
 const AppNavigator = StackNavigator(
   {
     Drawer: { screen: Drawer },
     Enderecos2: { screen: EnderecosPage },
     TransacoesDetailPage: { screen: TransacoesDetailPage },
-    EnderecoDetailPage: { screen: props => <EnderecoDetailPage {...props} /> },
+    EnderecoDetailPage: { screen: props => <EnderecoDetailPage {...props} /> }
   },
   {
-    initialRouteName: 'Drawer',
-    headerMode: 'none'
+    initialRouteName: "Drawer",
+    headerMode: "none"
   }
-)
-
-
-
-
+);

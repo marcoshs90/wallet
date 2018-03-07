@@ -15,6 +15,8 @@ import {
 import styles from "./style";
 import { Row } from "react-native-easy-grid";
 
+import EventEmitter from 'sm-event-emitter'
+
 const drawerImage = require("../../../assets/logo.png");
 const datas = [
   {
@@ -40,6 +42,12 @@ const datas = [
     route: "FaqPage",
     icon: "help-circle",
     bg: "#C5F442"
+  },
+  {
+    name: "Sair",
+    icon: "ios-power",
+    bg: "#C5F442",
+    onPress: () => EventEmitter.emit('SUCCESS_LOGOUT')
   },
 ];
 
@@ -69,7 +77,7 @@ export class SideBar extends Component {
               <ListItem
                 button
                 noBorder
-                onPress={() => this.props.navigation.navigate(data.route)}
+                onPress={() => data.onPress ? data.onPress() : this.props.navigation.navigate(data.route)}
               >
                 <Left>
                   <Icon
