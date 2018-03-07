@@ -1,19 +1,27 @@
 import React, { Component } from "react"
 import { Dimensions, TouchableOpacity, View } from "react-native"
-import { Container, Text, Input, Button, Item, Label } from "native-base"
+import { Container, Text, Input, Button, Item, Label, Picker, Icon } from "native-base"
 
 import { GcHeader, GcInput } from "gc-components"
+
+const { width } = Dimensions.get('window')
 
 export class SaquePage extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      comissao: 0
+      comissao: 0,
+      selected: ''
     }
   }
 
   formatedMoney(valor) {
+
+      if(!valor) {
+        valor = 0.00
+      }
+
       return (
         'R$ ' +
         valor.toLocaleString('pt-BR', {
@@ -25,6 +33,26 @@ export class SaquePage extends Component {
     return children
   }
 
+  onValueChange(value) {
+    this.setState({
+      selected: value
+    });
+  }
+
+  renderHeader(backAction) {
+    return (
+      <View style={{paddingTop: 40, paddingBottom: 20, backgroundColor: '#f1f1f1', flexDirection: 'row', alignItems: 'center', paddingLeft: 20}}>
+        <View style={{flex: 1}}>
+          <Text style={{fontSize: 18}}>Selecione uma conta</Text>
+        </View>
+
+        <Button transparent onPress={backAction}>
+          <Icon name="close" style={{ color: '#555', fontSize: 36 }} />
+        </Button>
+      </View>
+    )
+  }
+
   render() {
     return (
       <Container>
@@ -34,7 +62,23 @@ export class SaquePage extends Component {
           navigation={this.props.navigation}
         />
 
-        <View style={{padding: 20, borderRadius: 3, backgroundColor: '#fff', marginRight: 20}}>
+        <View style={{padding: 20, borderRadius: 3, backgroundColor: '#fff'}}>
+
+            <View style={{flexDirection: 'row'}}>
+              <Picker
+                mode="dropdown"
+                placeholder="Selecionar conta"
+                renderHeader={backAction => this.renderHeader(backAction)}
+                selectedValue={this.state.selected}
+                onValueChange={(value) => this.onValueChange(value)}
+                style={{borderWidth: 1, borderColor: '#ddd', borderRadius: 3, marginBottom: 10, height: 52, width: width - 40}}
+              >
+                <Item label="Banco do Brasil" value="key1" />
+                <Item label="Bradesco" value="key2" />
+                <Item label="Outra conta" value="key3" />
+                <Item label="E mais outra" value="key4" />
+              </Picker>
+            </View>
 
           <GcInput
             label="Valor"

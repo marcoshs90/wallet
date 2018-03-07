@@ -65,6 +65,17 @@ export class GcInput extends PureComponent {
     )
   }
 
+  _getTextInputComponent() {
+    if(this.props.mask) {
+        return this.campo.getElement()
+    }
+    return this.campo
+  }
+
+  focus() {
+    this._getTextInputComponent().focus()
+  }
+
   _change(text) {
     this.setState({ text })
 
@@ -109,7 +120,7 @@ export class GcInput extends PureComponent {
   render() {
     return (
       <View style={styles.group}>
-        <TouchableWithoutFeedback onPress={() => this.campo.focus()}>
+        <TouchableWithoutFeedback onPress={() => this.focus()}>
           <View style={[styles.labelGroup, {width: this.props.labelWidth || 180}]}>
             <Text style={{fontSize: 16, paddingLeft: 5, color: '#999'}}>{this.props.label}</Text>
           </View>
