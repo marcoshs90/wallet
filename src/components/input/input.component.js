@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Text, View, TextInput, Animated, TouchableWithoutFeedback, TouchableOpacity } from 'react-native'
 import EStyleSheet from 'react-native-extended-stylesheet'
+import { TextInputMask } from 'react-native-masked-text'
 import { Icon } from 'native-base'
 
 export class GcInput extends PureComponent {
@@ -19,7 +20,32 @@ export class GcInput extends PureComponent {
     }
   }
 
+  getRawValue() {
+    return this.campo.getRawValue()
+  }
+
   _renderInputComponent() {
+    if(this.props.mask) {
+      return (
+        <TextInputMask
+          type={this.props.mask.type}
+          options={this.props.mask.options}
+          ref={(c) => this.campo = c}
+          style={[styles.inputElement, this.state.showErrors === true ? { opacity: 0 } : {}, this.props.disabled ? {color: 'rgba(0,0,0,0.4)'} : {}]}
+          autoCorrect={false}
+          secureTextEntry={this.state.showPassword ? false : this.props.password || false}
+          autoCapitalize={this.props.keyboardType === 'email-address' ? 'none' : 'sentences'}
+          onChangeText={(text) => this._change(text)}
+          value={this.state.text}
+          autoFocus={this.props.autoFocus}
+          underlineColorAndroid={'transparent'}
+          editable={!this.props.disabled}
+          placeholder={this.props.placeholder || ''}
+          placeholderColor={'#777'}
+        />
+      )
+    }
+
     return (
       <TextInput
       ref={(c) => this.campo = c}
@@ -83,9 +109,11 @@ export class GcInput extends PureComponent {
   render() {
     return (
       <View style={styles.group}>
-        <View style={[styles.labelGroup, {width: this.props.labelWidth || 180}]}>
-          <Text style={{fontSize: 16, paddingLeft: 5, color: '#999'}}>{this.props.label}</Text>
-        </View>
+        <TouchableWithoutFeedback onPress={() => this.campo.focus()}>
+          <View style={[styles.labelGroup, {width: this.props.labelWidth || 180}]}>
+            <Text style={{fontSize: 16, paddingLeft: 5, color: '#999'}}>{this.props.label}</Text>
+          </View>
+        </TouchableWithoutFeedback>
         {this._renderInputComponent()}
         {this._renderIcon()}
       </View>
