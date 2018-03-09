@@ -12,13 +12,13 @@ const httpClient = axios.create({
 })
 
 
-httpClient.defaults.headers.common['Usertoken'] = '37399709-9593-45fc-9d8c-8192ebcf2255'
+// httpClient.defaults.headers.common['Usertoken'] = '37399709-9593-45fc-9d8c-8192ebcf2255'
 
 httpClient.interceptors.response.use((response) => {
   return response
 }, (error) => {
   if (error.response.status === 401 || error.response.status === 403) {
-     StorageService.remove('X-AUTH-TOKEN')
+     StorageService.remove('authorization')
   }
   return Promise.reject(error)
 })
@@ -32,11 +32,11 @@ export class HttpService {
     })
 
     return new Promise((resolve) => {
-      StorageService.getString('X-AUTH-TOKEN')
+      StorageService.getString('authorization')
         .then(token => {
 
           if(token) {
-            httpClient.defaults.headers.common['X-AUTH-TOKEN'] = token
+            httpClient.defaults.headers.common['authorization'] = token
           }
           resolve(token)
         })
@@ -44,16 +44,16 @@ export class HttpService {
   }
 
   registerToken(token) {
-    httpClient.defaults.headers.common['X-AUTH-TOKEN'] = token
-    return StorageService.setString('X-AUTH-TOKEN', token)
+    httpClient.defaults.headers.common['authorization'] = token
+    return StorageService.setString('authorization', token)
   }
 
   removeToken() {
     return new Promise((resolve) => {
-      StorageService.remove('X-AUTH-TOKEN')
+      StorageService.remove('authorization')
         .then(() => {
-          httpClient.defaults.headers.common['X-AUTH-TOKEN'] = ''
-          delete httpClient.defaults.headers.common['X-AUTH-TOKEN']
+          httpClient.defaults.headers.common['authorization'] = ''
+          delete httpClient.defaults.headers.common['authorization']
           resolve(true)
         })
     })

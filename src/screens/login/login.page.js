@@ -13,13 +13,16 @@ export class LoginPage extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {}
+    this.state = {
+      email: '',
+      senha: ''
+    }
 
     this.authService = new AuthService()
   }
 
   doLogin() {
-    this.authService.doLogin({usuario: '', password: ''})
+    this.authService.doLogin({email: this.state.email, password: this.state.senha})
   }
 
   render() {
