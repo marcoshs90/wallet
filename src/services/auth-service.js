@@ -9,13 +9,24 @@ export class AuthService {
   }
 
   init() {
-    return StorageService.getString("sessionToken")
+    return StorageService.getString("authorization")
   }
 
   doLogin(data) {
-    StorageService.setString('sessionToken', '123')
-      .then(() => {
-        EventEmitter.emit('LOGIN_SUCCESS', '123')
+
+
+    this.httpService.post('/usuario/access', data)
+      .then((response) => {
+
+        debugger
+
+        this.httpService.registerToken(response.headers['authorization'])
+          .then(() => {
+            EventEmitter.emit('LOGIN_SUCCESS', '123')
+          })
+      })
+      .catch(error => {
+        debugger
       })
   }
 }

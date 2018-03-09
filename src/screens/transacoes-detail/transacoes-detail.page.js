@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Dimensions, TouchableOpacity } from "react-native"
+import { Dimensions, TouchableOpacity, View } from "react-native"
 import { Container, Text } from "native-base"
 
 import { GcHeader } from "gc-components"
@@ -11,7 +11,11 @@ export class TransacoesDetailPage extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {}
+    const { params } = this.props.navigation.state;
+
+    this.state = {
+      transacao: params.transacao
+    }
 
     this.enderecoService = new EnderecoService()
   }
@@ -33,7 +37,19 @@ export class TransacoesDetailPage extends Component {
     this.props.navigation.navigate('Enderecos2')
   }
 
+  renderLine(label, value) {
+    return (
+      <View style={{flexDirection: 'row', paddingVertical: 15, borderTopWidth: 1, borderColor: '#ddd', alignItems: 'center'}}>
+        <View style={{paddingRight: 20}}><Text>{label}</Text></View>
+        <View style={{flex: 1}}><Text style={{fontSize: 12, color: '#555', textAlign: 'right'}}>{value}</Text></View>
+      </View>
+    )
+  }
+
   render() {
+
+    const { transacao } = this.state
+
     return (
       <Container>
         <GcHeader
@@ -50,10 +66,38 @@ export class TransacoesDetailPage extends Component {
           ]}
         />
 
-        <TouchableOpacity onPress={() => this.vai()}><Text>proxima</Text></TouchableOpacity>
+
+        <View style={{padding: 20}}>
+          <View style={{flexDirection: 'row', marginBottom: 10}}>
+            <View style={{flex: 1, paddingBottom: 8}}>
+              <Text style={{fontSize: 24}}>{this.state.transacao.tipo == 1
+                          ? "RECEBIDO"
+                          : this.state.transacao.tipo == 2
+                            ? "ENVIADO"
+                            : this.state.transacao.tipo == 3
+                              ? "COMPRA"
+                              : this.state.transacao.tipo == 4
+                                ? "VENDA"
+                                : this.state.transacao.tipo == 5 ? "REQUISIÇÃO" : ""}</Text>
+            </View>
+            <View>
+              <Text style={{fontSize: 24}}>{this.state.transacao.valor}</Text>
+            </View>
+          </View>
+
+          <View style={{flexDirection: 'row', marginBottom: 15}}>
+            <View style={{flex: 1, alignItems: 'flex-end' }}>
+              <Text style={{fontSize: 14, color: '#777'}}>Valor quando enviado: {transacao.valorreal}</Text>
+              <Text style={{fontSize: 14, color: '#777'}}>Taxa de transação: {transacao.comissao}</Text>
+            </View>
+          </View>
+
+          {this.renderLine('Carteira', transacao.carteira)}
+          {this.renderLine('Status', transacao.status ? 'Confirmado' : 'Em andamento')}
+        </View>
 
 
-        <Text>Dashboard</Text>
+
       </Container>
     )
   }
