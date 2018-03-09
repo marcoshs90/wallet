@@ -37,6 +37,15 @@ export class TransacoesDetailPage extends Component {
     this.props.navigation.navigate('Enderecos2')
   }
 
+  renderLine(label, value) {
+    return (
+      <View style={{flexDirection: 'row', paddingVertical: 15, borderTopWidth: 1, borderColor: '#ddd', justifyContent: 'center'}}>
+        <View style={{paddingRight: 20}}><Text>{label}</Text></View>
+        <View style={{flex: 1}}><Text style={{fontSize: 12, color: '#555', textAlign: 'right'}}>{value}</Text></View>
+      </View>
+    )
+  }
+
   render() {
 
     const { transacao } = this.state
@@ -59,7 +68,7 @@ export class TransacoesDetailPage extends Component {
 
 
         <View style={{padding: 20}}>
-          <View style={{flexDirection: 'row', marginBottom: 10, borderBottomWidth: 1, borderBottomColor: '#ddd'}}>
+          <View style={{flexDirection: 'row', marginBottom: 10}}>
             <View style={{flex: 1, paddingBottom: 8}}>
               <Text style={{fontSize: 24}}>{this.state.transacao.tipo == 1
                           ? "RECEBIDO"
@@ -76,12 +85,15 @@ export class TransacoesDetailPage extends Component {
             </View>
           </View>
 
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row', marginBottom: 15}}>
             <View style={{flex: 1, alignItems: 'flex-end' }}>
               <Text style={{fontSize: 14, color: '#777'}}>Valor quando enviado: {transacao.valorreal}</Text>
               <Text style={{fontSize: 14, color: '#777'}}>Taxa de transação: {transacao.comissao}</Text>
             </View>
           </View>
+
+          {this.renderLine('Carteira', transacao.carteira)}
+          {this.renderLine('Carteira', transacao.carteira)}
         </View>
 
 
