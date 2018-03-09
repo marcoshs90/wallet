@@ -39,7 +39,7 @@ export class TransacoesDetailPage extends Component {
 
   renderLine(label, value) {
     return (
-      <View style={{flexDirection: 'row', paddingVertical: 15, borderTopWidth: 1, borderColor: '#ddd', justifyContent: 'center'}}>
+      <View style={{flexDirection: 'row', paddingVertical: 15, borderTopWidth: 1, borderColor: '#ddd', alignItems: 'center'}}>
         <View style={{paddingRight: 20}}><Text>{label}</Text></View>
         <View style={{flex: 1}}><Text style={{fontSize: 12, color: '#555', textAlign: 'right'}}>{value}</Text></View>
       </View>
@@ -93,7 +93,7 @@ export class TransacoesDetailPage extends Component {
           </View>
 
           {this.renderLine('Carteira', transacao.carteira)}
-          {this.renderLine('Carteira', transacao.carteira)}
+          {this.renderLine('Status', transacao.status ? 'Confirmado' : 'Em andamento')}
         </View>
 
 
