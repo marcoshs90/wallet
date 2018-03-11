@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { View, Dimensions } from "react-native";
 import { Root, Icon } from "native-base";
 import {
   StackNavigator,
@@ -10,6 +11,8 @@ import {
 import Reactotron from "reactotron-react-native";
 
 import EventEmitter from "sm-event-emitter";
+
+const { width, height } = Dimensions.get('window')
 
 Reactotron.configure()
   .useReactNative()
@@ -30,8 +33,9 @@ import {
   LoginPage
 } from "gc-pages";
 
+import { GcToaster, GcLoader } from "gc-components";
 import { ConfigTheme } from "gc-config";
-import { AuthService, StorageService } from "gc-services";
+import { AuthService, StorageService, HttpService, ToasterService } from "gc-services";
 
 export default class App extends Component {
   constructor() {
@@ -47,7 +51,7 @@ export default class App extends Component {
 
     this.authService = new AuthService();
 
-    this.authService.init().then(token => {
+    HttpService.init().then(token => {
       this.setState({ token, isLoading: false });
     });
 
@@ -61,8 +65,8 @@ export default class App extends Component {
     });
 
     EventEmitter.on("SUCCESS_LOGOUT", () => {
-      StorageService.remove("sessionToken");
-      this.setState({ token: "" });
+      StorageService.remove("Authorization");
+      this.setState({ token: '' });
     });
   }
 
@@ -74,12 +78,16 @@ export default class App extends Component {
     if (this.state.token) {
       return (
         <Root>
+          <GcToaster />
+          <GcLoader />
           <AppNavigator />
         </Root>
       );
     } else {
       return (
         <Root>
+          <GcToaster />
+          <GcLoader />
           <LoginPage />
         </Root>
       );

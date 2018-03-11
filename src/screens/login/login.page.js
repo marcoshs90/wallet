@@ -7,7 +7,7 @@ import EventEmitter from 'sm-event-emitter'
 import EStyleSheet from "react-native-extended-stylesheet";
 
 import { GcHeader, GcInput } from "gc-components"
-import { AuthService } from "gc-services"
+import { AuthService, ToasterService, LoaderService } from "gc-services"
 
 export class LoginPage extends Component {
   constructor(props) {
@@ -22,7 +22,14 @@ export class LoginPage extends Component {
   }
 
   doLogin() {
+    LoaderService.show()
     this.authService.doLogin({email: this.state.email, password: this.state.senha})
+      .catch((error) => {
+        ToasterService.error(error.message)
+      })
+      .finally(() => {
+        LoaderService.hide()
+      })
   }
 
   render() {
@@ -32,6 +39,10 @@ export class LoginPage extends Component {
         <View style={{flexDirection: 'row', padding: 20}}>
           <Image style={{resizeMode: 'contain', flex: 1}} source={require("../../../assets/logo.png")} />
         </View>
+
+        {
+          this.state.isLoading ? <Text>Carregando</Text> : null
+        }
 
 
         <View style={{padding: 20, paddingBottom: 0}}>
