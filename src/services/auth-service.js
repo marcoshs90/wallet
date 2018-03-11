@@ -15,9 +15,6 @@ export class AuthService {
   doLogin(data) {
     return this.httpService.post('/usuario/access', data)
       .then((response) => {
-
-        debugger
-
         const token = response.headers['authorization']
         const usuario = {
           id: response.data.id_user

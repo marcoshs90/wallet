@@ -23,6 +23,7 @@ export class EnderecoDetailPage extends Component {
 
     this.state = {
       endereco: params.endereco,
+      usuario: params.usuario,
       isLoading: false
     };
 
@@ -34,7 +35,7 @@ export class EnderecoDetailPage extends Component {
   };
 
   getEnderecos() {
-    this.enderecoService.getEnderecos({ id: 1 }).then(enderecos => {
+    this.enderecoService.getEnderecos({ id: this.state.usuario.id }).then(enderecos => {
       EventEmitter.emit('ATUALIZAR_ENDERECOS', enderecos)
       enderecos.forEach(end => {
         if (end.endereco === this.state.endereco.endereco) {
@@ -47,14 +48,14 @@ export class EnderecoDetailPage extends Component {
   arquivar() {
     this.setState({ isLoading: true });
     this.enderecoService
-      .arquivar({ id: 1, address: this.state.endereco.endereco })
+      .arquivar({ id: this.state.usuario.id, address: this.state.endereco.endereco })
       .then(() => this.getEnderecos());
   }
 
   desarquivar() {
     this.setState({ isLoading: true });
     this.enderecoService
-      .desarquivar({ id: 1, address: this.state.endereco.endereco })
+      .desarquivar({ id: this.state.usuario.id, address: this.state.endereco.endereco })
       .then(() => this.getEnderecos());
   }
 
