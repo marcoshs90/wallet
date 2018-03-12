@@ -5,12 +5,13 @@ const TOASTER_TYPES = {
   ERROR: 'ERROR',
   SUCCESS: 'SUCCESS',
   NORMAL: 'NORMAL',
+  SHOW: 'SHOW',
 }
 
 export class ToasterService {
 
   static error(message, options) {
-    EventEmitter.emit(TOASTER_TYPES.ERROR, {
+    EventEmitter.emit(TOASTER_TYPES.SHOW, {
       type: TOASTER_TYPES.ERROR,
       message,
       options
@@ -18,7 +19,7 @@ export class ToasterService {
   }
 
   static success(message, options) {
-    EventEmitter.emit(TOASTER_TYPES.SUCCESS, {
+    EventEmitter.emit(TOASTER_TYPES.SHOW, {
       type: TOASTER_TYPES.SUCCESS,
       message,
       options

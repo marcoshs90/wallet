@@ -20,6 +20,50 @@ export class EnderecoService {
       })
   }
 
+  getCarteiras(data) {
+    return this.httpService
+      .post('/compra', data)
+      .then((response) => {
+        return response.data
+      })
+      .catch(error => {
+        debugger
+        throw new ErrorModel({
+          error
+        })
+      })
+  }
+
+  calcularComissao(valor) {
+    return this.httpService
+      .post('/compra/calculo', {real: valor})
+      .then((response) => {
+        debugger
+        return response.data
+      })
+      .catch(error => {
+        debugger
+        throw new ErrorModel({
+          error
+        })
+      })
+  }
+
+  comprar(data) {
+    return this.httpService
+      .post('/compra/comprar', data)
+      .then((response) => {
+        debugger
+        return response.data
+      })
+      .catch(error => {
+        debugger
+        throw new ErrorModel({
+          error
+        })
+      })
+  }
+
   novo(data) {
     return this.httpService
       .post('/enderecos/novo', data)

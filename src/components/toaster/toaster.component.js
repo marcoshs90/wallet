@@ -38,7 +38,7 @@ export class GcToaster extends Component {
 
     this.top = new Animated.Value(-TOASTER_HEIGHT)
 
-    this._toasterEventId = EventEmitter.on(ToasterService.TYPES.ERROR, (data) => this._show(data))
+    this._toasterEventId = EventEmitter.on(ToasterService.TYPES.SHOW, (data) => this._show(data))
   }
 
   _show(data) {
