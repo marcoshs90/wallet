@@ -18,26 +18,32 @@ import {
 import { Grid, Row, Col } from "react-native-easy-grid"
 
 import { GcHeader } from "gc-components"
-import { TransacoesService } from "gc-services"
+import { TransacoesService, StorageService } from "gc-services"
 
 export class TransacoesPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
       isLoading: true,
-      transacoes: []
+      transacoes: [],
+      usuario: {}
     }
 
     this.transacoesService = new TransacoesService()
   }
 
   componentDidMount() {
-    this.getTransacoes()
+
+    StorageService.getObject('usuario')
+      .then(usuario => {
+        this.setState({usuario})
+        this.getTransacoes();
+      })
   }
 
   getTransacoes() {
     this.transacoesService
-      .getTransacoes({ id: 13, tipo: 0 })
+      .getTransacoes({ id: this.state.usuario.id })
       .then(transacoes => {
         this.setState({ transacoes, isLoading: false })
       })
