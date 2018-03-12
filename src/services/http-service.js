@@ -18,7 +18,7 @@ httpClient.interceptors.response.use((response) => {
   return response
 }, (error) => {
   if (error.response.status === 401 || error.response.status === 403) {
-     StorageService.remove('authorization')
+     StorageService.remove('Authorization')
   }
   return Promise.reject(error)
 })
@@ -32,11 +32,13 @@ export class HttpService {
     })
 
     return new Promise((resolve) => {
-      StorageService.getString('authorization')
-        .then(token => {
+      StorageService.getString('Authorization')
+        .then((token) => {
+
+          debugger
 
           if(token) {
-            httpClient.defaults.headers.common['authorization'] = token
+            httpClient.defaults.headers.common['Authorization'] = token
           }
           resolve(token)
         })
@@ -44,16 +46,27 @@ export class HttpService {
   }
 
   registerToken(token) {
-    httpClient.defaults.headers.common['authorization'] = token
-    return StorageService.setString('authorization', token)
+
+    return new Promise((resolve) => {
+
+      if(token) {
+        httpClient.defaults.headers.common['Authorization'] = `Bearer ${token}`
+        return StorageService.setString('Authorization', `Bearer ${token}`)
+          .then(() => {
+            resolve(token)
+          })
+      } else {
+        resolve(null)
+      }
+    })
   }
 
   removeToken() {
     return new Promise((resolve) => {
-      StorageService.remove('authorization')
+      StorageService.remove('Authorization')
         .then(() => {
-          httpClient.defaults.headers.common['authorization'] = ''
-          delete httpClient.defaults.headers.common['authorization']
+          httpClient.defaults.headers.common['Authorization'] = ''
+          delete httpClient.defaults.headers.common['Authorization']
           resolve(true)
         })
     })

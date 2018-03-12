@@ -21,7 +21,7 @@ import { Grid, Row, Col } from 'react-native-easy-grid';
 import EventEmitter from "sm-event-emitter";
 
 import { GcHeader } from 'gc-components';
-import { EnderecoService } from 'gc-services';
+import { EnderecoService, StorageService } from 'gc-services';
 
 export class EnderecosPage extends Component {
   constructor(props) {
@@ -30,7 +30,8 @@ export class EnderecosPage extends Component {
       isLoading: true,
       enderecos: [],
       showNovoEnderecoModal: false,
-      endereco: ''
+      endereco: '',
+      usuario: {}
     };
 
     this.enderecoService = new EnderecoService();
@@ -40,11 +41,16 @@ export class EnderecosPage extends Component {
   }
 
   componentDidMount() {
-    this.getEnderecos();
+
+    StorageService.getObject('usuario')
+      .then(usuario => {
+        this.setState({usuario})
+        this.getEnderecos();
+      })
   }
 
   getEnderecos() {
-    this.enderecoService.getEnderecos({ id: 1 }).then(enderecos => {
+    this.enderecoService.getEnderecos({id: this.state.usuario.id}).then(enderecos => {
       this.setState({ enderecos, isLoading: false });
     });
   }
@@ -61,7 +67,7 @@ export class EnderecosPage extends Component {
     this.setState({ isLoading: true, showNovoEnderecoModal: false });
     this.enderecoService
       .novo({
-        id: 1,
+        id: this.state.usuario.id,
         isPrincipal: false,
         identificador: this.state.endereco
       })
@@ -94,7 +100,7 @@ export class EnderecosPage extends Component {
 
         if(item.arquivado) {
           if(buttonIndex === 0) {
-            this.enderecoService.desarquivar({id: 1, address: item.endereco})
+            this.enderecoService.desarquivar({id: this.state.usuario.id, address: item.endereco})
               .then(() => this.getEnderecos())
           }
         } else {
@@ -107,7 +113,7 @@ export class EnderecosPage extends Component {
           }
 
           if(buttonIndex === 2) {
-            this.enderecoService.arquivar({id: 1, address: item.endereco})
+            this.enderecoService.arquivar({id: this.state.usuario.id, address: item.endereco})
               .then(() => this.getEnderecos())
           }
         }
@@ -116,7 +122,7 @@ export class EnderecosPage extends Component {
   }
 
   detailPage(item) {
-    this.props.navigation.navigate('EnderecoDetailPage', {endereco: item})
+    this.props.navigation.navigate('EnderecoDetailPage', {endereco: item, usuario: this.state.usuario})
   }
 
   renderItem(item, index) {
